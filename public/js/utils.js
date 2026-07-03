@@ -1,7 +1,7 @@
 // Terra Kitchen - Utility Functions
 const API_BASE_URL = window.location.hostname === 'localhost' 
   ? 'http://localhost:5000/api'
-  : 'https://terra-kitchen-api.onrender.com/api';
+  : 'https://restaurant-website-pvz6.onrender.com/api';
 
 // API Helper
 async function apiCall(endpoint, options = {}) {
