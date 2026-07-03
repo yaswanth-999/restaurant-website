@@ -10,20 +10,30 @@ exports.createReservation = async (req, res, next) => {
     const estimatedBill = guests * 500; // Average bill per person
     const depositAmount = Math.max(estimatedBill * 0.1, 500);
 
-    // Create Razorpay order
-    const order = await razorpayInstance.orders.create({
-      amount: Math.round(depositAmount * 100), // Amount in paise
-      currency: 'INR',
-      receipt: `order_${Date.now()}`,
-      notes: {
-        name,
-        email,
-        phone,
-        guests
-      }
-    });
+    let order = null;
+    let razorpayOrder = null;
 
-    // Create reservation with Razorpay order ID
+    // Create Razorpay order only if Razorpay is configured
+    if (razorpayInstance) {
+      order = await razorpayInstance.orders.create({
+        amount: Math.round(depositAmount * 100), // Amount in paise
+        currency: 'INR',
+        receipt: `order_${Date.now()}`,
+        notes: {
+          name,
+          email,
+          phone,
+          guests
+        }
+      });
+      razorpayOrder = {
+        orderId: order.id,
+        amount: order.amount,
+        currency: order.currency
+      };
+    }
+
+    // Create reservation with Razorpay order ID (if available)
     const reservation = await Reservation.create({
       name,
       email,
@@ -33,21 +43,19 @@ exports.createReservation = async (req, res, next) => {
       guests,
       specialRequests: specialRequests || '',
       depositAmount,
-      razorpayOrderId: order.id,
+      razorpayOrderId: order ? order.id : null,
       status: 'Pending',
-      paymentStatus: 'Pending'
+      paymentStatus: razorpayInstance ? 'Pending' : 'Confirmed'
     });
 
     res.status(201).json({
       success: true,
-      message: 'Reservation created. Please complete payment.',
+      message: razorpayInstance 
+        ? 'Reservation created. Please complete payment.'
+        : 'Reservation created successfully.',
       data: {
         reservation,
-        razorpayOrder: {
-          orderId: order.id,
-          amount: order.amount,
-          currency: order.currency
-        }
+        ...(razorpayOrder && { razorpayOrder })
       }
     });
   } catch (error) {
@@ -58,6 +66,14 @@ exports.createReservation = async (req, res, next) => {
 // Verify Razorpay payment and confirm reservation
 exports.verifyPayment = async (req, res, next) => {
   try {
+    // If Razorpay is not configured, skip verification
+    if (!razorpayInstance) {
+      return res.status(400).json({
+        success: false,
+        message: 'Payment gateway not configured'
+      });
+    }
+
     const { razorpayOrderId, razorpayPaymentId, razorpaySignature } = req.body;
 
     // Verify signature (simplified - in production use crypto)
