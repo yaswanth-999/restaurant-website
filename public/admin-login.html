@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Terra Kitchen Admin Login">
+  <title>Admin Login - Terra Kitchen</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .login-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(139, 69, 19, 0.1), rgba(212, 165, 116, 0.1));
+      padding: 1rem;
+    }
+
+    .login-card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 400px;
+      padding: 3rem 2rem;
+    }
+
+    .login-card h1 {
+      text-align: center;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+      font-size: 2rem;
+    }
+
+    .login-card .subtitle {
+      text-align: center;
+      color: #999;
+      margin-bottom: 2rem;
+      font-size: 0.9rem;
+    }
+
+    .login-form .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .login-form input {
+      width: 100%;
+      padding: 1rem;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: all 0.3s ease;
+    }
+
+    .login-form input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+    }
+
+    .login-form button {
+      width: 100%;
+      padding: 1rem;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      min-height: 48px;
+    }
+
+    .login-form button:hover {
+      background-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .login-form button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .error-message {
+      background-color: #fff5f5;
+      border-left: 4px solid var(--accent);
+      color: var(--accent);
+      padding: 1rem;
+      border-radius: 4px;
+      margin-bottom: 1.5rem;
+      display: none;
+      animation: slideInUp 0.3s ease;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    .back-link {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+    }
+
+    .back-link a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .back-link a:hover {
+      color: var(--accent);
+    }
+
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      display: none;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .spinner.show {
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-card">
+      <h1>Terra Kitchen</h1>
+      <p class="subtitle">Admin Portal</p>
+
+      <div class="error-message" id="error-message"></div>
+
+      <form class="login-form" id="login-form">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" placeholder="Enter your username" required autofocus>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        </div>
+
+        <button type="submit" id="login-btn">
+          <span class="spinner" id="spinner"></span>
+          <span id="btn-text">Sign In</span>
+        </button>
+      </form>
+
+      <div class="back-link">
+        <a href="/index.html">← Back to Website</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    const loginForm = document.getElementById('login-form');
+    const errorMessage = document.getElementById('error-message');
+    const loginBtn = document.getElementById('login-btn');
+    const spinner = document.getElementById('spinner');
+    const btnText = document.getElementById('btn-text');
+
+    // Check if already logged in
+    if (auth.isLoggedIn()) {
+      window.location.href = '/admin-dashboard.html';
+    }
+
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      errorMessage.classList.remove('show');
+      loginBtn.disabled = true;
+      spinner.classList.add('show');
+      btnText.textContent = 'Signing in...';
+
+      try {
+        const success = await auth.login(username, password);
+
+        if (success) {
+          showNotification('Login successful!', 'success');
+          setTimeout(() => {
+            window.location.href = '/admin-dashboard.html';
+          }, 500);
+        } else {
+          throw new Error('Invalid credentials');
+        }
+      } catch (error) {
+        errorMessage.textContent = error.message || 'Login failed. Please try again.';
+        errorMessage.classList.add('show');
+        loginBtn.disabled = false;
+        spinner.classList.remove('show');
+        btnText.textContent = 'Sign In';
+      }
+    });
+  </script>
+</body>
+</html>

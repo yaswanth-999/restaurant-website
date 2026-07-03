@@ -1,0 +1,9 @@
+app/
+components/
+lib/
+next.config.mjs
+tsconfig.json
+.next/
+postcss.config.mjs
+tailwind.config.ts
+tailwind.config.js

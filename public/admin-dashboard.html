@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Terra Kitchen</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    /* Admin Layout */
+    .admin-layout {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      min-height: 100vh;
+    }
+
+    .admin-sidebar {
+      background-color: var(--primary);
+      color: white;
+      padding: 2rem 0;
+      position: fixed;
+      left: 0;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      width: 250px;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .sidebar-header {
+      padding: 0 1.5rem;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding-bottom: 1.5rem;
+    }
+
+    .sidebar-header h2 {
+      color: white;
+      font-size: 1.25rem;
+      margin: 0 0 0.5rem 0;
+    }
+
+    .sidebar-header p {
+      color: var(--secondary);
+      font-size: 0.85rem;
+      margin: 0;
+    }
+
+    .sidebar-menu {
+      list-style: none;
+    }
+
+    .sidebar-menu li {
+      margin: 0;
+    }
+
+    .sidebar-menu a {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.5rem;
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border-left: 4px solid transparent;
+    }
+
+    .sidebar-menu a:hover,
+    .sidebar-menu a.active {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+      border-left-color: var(--secondary);
+    }
+
+    .sidebar-footer {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      padding: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .logout-btn {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .logout-btn:hover {
+      background-color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    /* Main Content */
+    .admin-main {
+      grid-column: 2;
+      padding: 2rem;
+      background-color: var(--neutral-light);
+      min-height: 100vh;
+    }
+
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .admin-title {
+      margin: 0;
+      color: var(--primary);
+    }
+
+    .admin-user {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: var(--neutral-dark);
+    }
+
+    /* Dashboard Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: var(--shadow-sm);
+      border-top: 4px solid var(--primary);
+    }
+
+    .stat-card h3 {
+      color: #999;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin: 0 0 1rem 0;
+    }
+
+    .stat-value {
+      font-size: 2.5rem;
+      color: var(--primary);
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .stat-card.pending {
+      border-top-color: #ff9800;
+    }
+
+    .stat-card.pending .stat-value {
+      color: #ff9800;
+    }
+
+    .stat-card.confirmed {
+      border-top-color: #4caf50;
+    }
+
+    .stat-card.confirmed .stat-value {
+      color: #4caf50;
+    }
+
+    .stat-card.messages {
+      border-top-color: #2196f3;
+    }
+
+    .stat-card.messages .stat-value {
+      color: #2196f3;
+    }
+
+    /* Section Container */
+    .admin-section {
+      background: white;
+      border-radius: 8px;
+      padding: 2rem;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 2rem;
+      display: none;
+    }
+
+    .admin-section.active {
+      display: block;
+      animation: fadeInUp 0.3s ease;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid var(--neutral-light);
+      padding-bottom: 1rem;
+    }
+
+    .section-header h2 {
+      color: var(--primary);
+      margin: 0;
+    }
+
+    .section-header .btn {
+      padding: 0.75rem 1.5rem;
+      font-size: 0.9rem;
+    }
+
+    /* Table Styles */
+    .table-container {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1rem;
+    }
+
+    thead {
+      background-color: var(--neutral-light);
+    }
+
+    th {
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+      color: var(--primary);
+      border-bottom: 2px solid #ddd;
+    }
+
+    td {
+      padding: 1rem;
+      border-bottom: 1px solid #eee;
+    }
+
+    tr:hover {
+      background-color: #f9f9f9;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .badge.pending {
+      background-color: #fff3e0;
+      color: #ff9800;
+    }
+
+    .badge.confirmed {
+      background-color: #e8f5e9;
+      color: #4caf50;
+    }
+
+    .badge.cancelled {
+      background-color: #ffebee;
+      color: #f44336;
+    }
+
+    .badge.unread {
+      background-color: #e3f2fd;
+      color: #2196f3;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .btn-sm {
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-sm.edit {
+      background-color: #2196f3;
+      color: white;
+    }
+
+    .btn-sm.edit:hover {
+      background-color: #1976d2;
+    }
+
+    .btn-sm.delete {
+      background-color: #f44336;
+      color: white;
+    }
+
+    .btn-sm.delete:hover {
+      background-color: #da190b;
+    }
+
+    /* Filter & Search */
+    .filter-bar {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-bar input,
+    .filter-bar select {
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+
+    .filter-bar input:focus,
+    .filter-bar select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+    }
+
+    /* Form Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .modal.active {
+      display: flex;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 8px;
+      padding: 2rem;
+      max-width: 500px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--neutral-light);
+    }
+
+    .modal-header h2 {
+      color: var(--primary);
+      margin: 0;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #999;
+      transition: color 0.3s ease;
+    }
+
+    .close-btn:hover {
+      color: var(--neutral-dark);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: #999;
+    }
+
+    .empty-state p {
+      margin: 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .admin-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .admin-sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 1rem 0;
+      }
+
+      .sidebar-footer {
+        position: static;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .admin-main {
+        grid-column: 1;
+        padding: 1rem;
+      }
+
+      .admin-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      table {
+        font-size: 0.85rem;
+      }
+
+      th, td {
+        padding: 0.75rem 0.5rem;
+      }
+
+      .filter-bar {
+        flex-direction: column;
+      }
+
+      .filter-bar input,
+      .filter-bar select {
+        width: 100%;
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-layout">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-header">
+        <h2>Terra Kitchen</h2>
+        <p>Admin Portal</p>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li><a href="#" class="menu-link active" data-page="dashboard">📊 Dashboard</a></li>
+        <li><a href="#" class="menu-link" data-page="reservations">📅 Reservations</a></li>
+        <li><a href="#" class="menu-link" data-page="menu">🍽️ Menu Items</a></li>
+        <li><a href="#" class="menu-link" data-page="contacts">💬 Messages</a></li>
+        <li><a href="#" class="menu-link" data-page="settings">⚙️ Settings</a></li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <button class="logout-btn" id="logout-btn">Logout</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      <div class="admin-header">
+        <h1 class="admin-title" id="page-title">Dashboard</h1>
+        <div class="admin-user">
+          <span id="admin-name">Admin</span>
+          <span id="admin-email">admin@terrrakitchen.com</span>
+        </div>
+      </div>
+
+      <!-- Dashboard Section -->
+      <section id="dashboard" class="admin-section active">
+        <div class="stats-grid" id="stats-grid">
+          <div class="stat-card">
+            <h3>Total Reservations</h3>
+            <p class="stat-value" id="total-reservations">0</p>
+          </div>
+          <div class="stat-card pending">
+            <h3>Pending</h3>
+            <p class="stat-value" id="pending-count">0</p>
+          </div>
+          <div class="stat-card confirmed">
+            <h3>Confirmed</h3>
+            <p class="stat-value" id="confirmed-count">0</p>
+          </div>
+          <div class="stat-card messages">
+            <h3>Messages</h3>
+            <p class="stat-value" id="messages-count">0</p>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+          <!-- Recent Reservations -->
+          <div style="background: white; padding: 2rem; border-radius: 8px; box-shadow: var(--shadow-sm);">
+            <h3 style="color: var(--primary); margin-top: 0;">Recent Reservations</h3>
+            <div id="recent-reservations" style="max-height: 300px; overflow-y: auto;">
+              <p style="color: #999; text-align: center;">Loading...</p>
+            </div>
+          </div>
+
+          <!-- Unread Messages -->
+          <div style="background: white; padding: 2rem; border-radius: 8px; box-shadow: var(--shadow-sm);">
+            <h3 style="color: var(--primary); margin-top: 0;">Unread Messages</h3>
+            <div id="unread-messages" style="max-height: 300px; overflow-y: auto;">
+              <p style="color: #999; text-align: center;">Loading...</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Reservations Section -->
+      <section id="reservations" class="admin-section">
+        <div class="section-header">
+          <h2>Manage Reservations</h2>
+          <button class="btn btn-primary" id="add-reservation-btn">+ New Reservation</button>
+        </div>
+
+        <div class="filter-bar">
+          <input type="date" id="filter-date" placeholder="Filter by date">
+          <select id="filter-status">
+            <option value="">All Status</option>
+            <option value="Pending">Pending</option>
+            <option value="Confirmed">Confirmed</option>
+            <option value="Cancelled">Cancelled</option>
+          </select>
+          <input type="text" id="search-reservation" placeholder="Search by name, email...">
+        </div>
+
+        <div class="table-container">
+          <table id="reservations-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Date & Time</th>
+                <th>Guests</th>
+                <th>Status</th>
+                <th>Payment</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="reservations-tbody">
+              <tr><td colspan="8" class="empty-state"><p>No reservations found</p></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Menu Section -->
+      <section id="menu" class="admin-section">
+        <div class="section-header">
+          <h2>Menu Items</h2>
+          <button class="btn btn-primary" id="add-menu-btn">+ Add Item</button>
+        </div>
+
+        <div class="filter-bar">
+          <select id="filter-category">
+            <option value="">All Categories</option>
+            <option value="Appetizers">Appetizers</option>
+            <option value="Mains">Mains</option>
+            <option value="Desserts">Desserts</option>
+            <option value="Drinks">Drinks</option>
+          </select>
+          <input type="text" id="search-menu" placeholder="Search by name...">
+        </div>
+
+        <div class="table-container">
+          <table id="menu-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Vegetarian</th>
+                <th>Available</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="menu-tbody">
+              <tr><td colspan="6" class="empty-state"><p>No menu items found</p></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Contacts Section -->
+      <section id="contacts" class="admin-section">
+        <div class="section-header">
+          <h2>Customer Messages</h2>
+        </div>
+
+        <div class="filter-bar">
+          <select id="filter-message-status">
+            <option value="">All Status</option>
+            <option value="Unread">Unread</option>
+            <option value="Read">Read</option>
+            <option value="Resolved">Resolved</option>
+          </select>
+          <input type="text" id="search-contact" placeholder="Search by name, email...">
+        </div>
+
+        <div class="table-container">
+          <table id="contacts-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Message</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="contacts-tbody">
+              <tr><td colspan="6" class="empty-state"><p>No messages found</p></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Settings Section -->
+      <section id="settings" class="admin-section">
+        <div class="section-header">
+          <h2>Settings</h2>
+        </div>
+
+        <div style="max-width: 600px;">
+          <div style="background: var(--neutral-light); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+            <h3 style="color: var(--primary); margin-top: 0;">Admin Profile</h3>
+            <p><strong>Username:</strong> <span id="settings-username">-</span></p>
+            <p><strong>Email:</strong> <span id="settings-email">-</span></p>
+            <p><strong>Role:</strong> <span id="settings-role">-</span></p>
+            <p><strong>Last Login:</strong> <span id="settings-lastLogin">-</span></p>
+          </div>
+
+          <h3 style="color: var(--primary);">Change Password</h3>
+          <form id="password-form" style="max-width: 400px;">
+            <div class="form-group">
+              <label for="current-password">Current Password</label>
+              <input type="password" id="current-password" name="currentPassword" required>
+              <span class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="new-password">New Password</label>
+              <input type="password" id="new-password" name="newPassword" required>
+              <span class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="confirm-password">Confirm Password</label>
+              <input type="password" id="confirm-password" name="confirmPassword" required>
+              <span class="error-message"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Update Password</button>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/admin-dashboard.js"></script>
+</body>
+</html>

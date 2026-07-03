@@ -1,0 +1,510 @@
+/* ============================================
+   TERRA KITCHEN - RESPONSIVE DESIGN
+   Mobile-first breakpoints
+   ============================================ */
+
+/* Extra Small (Mobile): 320px - 374px */
+@media (max-width: 374px) {
+  h1 { font-size: 1.75rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.25rem; }
+  
+  .nav-brand h1 {
+    font-size: 1.25rem;
+  }
+  
+  .tagline {
+    font-size: 0.75rem;
+  }
+  
+  .hero-title {
+    font-size: 1.75rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+  
+  .hero-buttons {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .btn {
+    width: 100%;
+  }
+  
+  .menu-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .menu-filters {
+    gap: 0.5rem;
+  }
+  
+  .filter-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+  
+  .section-title {
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .location-grid,
+  .about-content {
+    grid-template-columns: 1fr;
+  }
+  
+  .map-container {
+    height: 300px;
+  }
+  
+  .container {
+    padding: 0 1rem;
+  }
+  
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 2rem 1rem;
+    gap: 1.5rem;
+  }
+  
+  .hero-image {
+    height: 300px;
+  }
+  
+  .hero-image img {
+    height: 300px;
+  }
+}
+
+/* Small (Mobile): 375px - 424px */
+@media (min-width: 375px) and (max-width: 424px) {
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.75rem; }
+  h3 { font-size: 1.4rem; }
+  
+  .nav-menu {
+    display: none;
+  }
+  
+  .menu-toggle {
+    display: block;
+  }
+  
+  .hero-title {
+    font-size: 2rem;
+  }
+  
+  .menu-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .section-title {
+    font-size: 1.75rem;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .location-grid,
+  .about-content {
+    grid-template-columns: 1fr;
+  }
+  
+  .map-container {
+    height: 300px;
+  }
+}
+
+/* Medium (Tablet): 768px - 1023px */
+@media (min-width: 768px) {
+  .nav-menu {
+    display: flex !important;
+  }
+  
+  .menu-toggle {
+    display: none;
+  }
+  
+  h1 { font-size: 2.75rem; }
+  h2 { font-size: 2rem; }
+  h3 { font-size: 1.5rem; }
+  
+  .hero {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .hero-title {
+    font-size: 2.75rem;
+  }
+  
+  .hero-image {
+    height: 400px;
+  }
+  
+  .hero-image img {
+    height: 400px;
+  }
+  
+  .menu-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .about-content,
+  .location-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .form-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .footer-content {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .section-title {
+    font-size: 2.25rem;
+    margin-bottom: 2.5rem;
+  }
+}
+
+/* Large (Desktop): 1024px - 1439px */
+@media (min-width: 1024px) {
+  h1 { font-size: 3rem; }
+  h2 { font-size: 2.25rem; }
+  h3 { font-size: 1.75rem; }
+  
+  .hero-title {
+    font-size: 3rem;
+  }
+  
+  .menu-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .form-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .section-title {
+    font-size: 2.5rem;
+  }
+}
+
+/* Extra Large (Desktop): 1440px+ */
+@media (min-width: 1440px) {
+  .hero-image {
+    height: 500px;
+  }
+  
+  .hero-image img {
+    height: 500px;
+  }
+  
+  .about-image img,
+  .about-image {
+    height: 450px;
+  }
+  
+  .menu-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ============================================
+   TABLET SPECIFIC ADJUSTMENTS
+   ============================================ */
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .nav-container {
+    padding: 1.25rem 1.5rem;
+  }
+  
+  .nav-brand h1 {
+    font-size: 1.5rem;
+  }
+  
+  .nav-menu {
+    gap: 1.5rem;
+  }
+  
+  .nav-link {
+    font-size: 0.9rem;
+  }
+  
+  .hero {
+    padding: 3rem 1.5rem;
+    gap: 2rem;
+  }
+  
+  .menu-section,
+  .about-section,
+  .location-section,
+  .reservations-section,
+  .contact-section {
+    padding: 3rem 1.5rem;
+  }
+  
+  .container {
+    padding: 0 1.5rem;
+  }
+  
+  .menu-filters {
+    margin-bottom: 2rem;
+  }
+  
+  .reservation-form,
+  .contact-form {
+    padding: 1.5rem;
+  }
+  
+  .footer {
+    padding: 2.5rem 1.5rem 1rem;
+  }
+}
+
+/* ============================================
+   LANDSCAPE ORIENTATION
+   ============================================ */
+
+@media (max-height: 600px) and (orientation: landscape) {
+  .hero {
+    padding: 2rem;
+    gap: 2rem;
+  }
+  
+  .hero-image {
+    height: 300px;
+  }
+  
+  .hero-image img {
+    height: 300px;
+  }
+  
+  .section-title {
+    margin-bottom: 1.5rem;
+  }
+  
+  .menu-item-image {
+    height: 150px;
+  }
+}
+
+/* ============================================
+   TOUCH DEVICES IMPROVEMENTS
+   ============================================ */
+
+@media (hover: none) and (pointer: coarse) {
+  /* Slightly larger touch targets */
+  .btn {
+    padding: 1.125rem 2.25rem;
+    min-height: 48px;
+  }
+  
+  .filter-btn {
+    padding: 0.875rem 1.75rem;
+    min-height: 44px;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="date"],
+  input[type="time"],
+  input[type="number"],
+  textarea,
+  select {
+    padding: 1rem;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+  
+  /* Remove hover effects on touch devices */
+  .menu-item:active {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  }
+  
+  .btn-primary:active {
+    transform: translateY(-2px);
+  }
+  
+  .nav-link:active::after {
+    width: 100%;
+  }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+
+@media print {
+  .navbar,
+  .hero-buttons,
+  .menu-filters,
+  .reservation-section,
+  .contact-section,
+  .footer {
+    display: none;
+  }
+  
+  body {
+    background-color: white;
+    color: black;
+  }
+  
+  .menu-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .menu-item {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
+
+/* ============================================
+   REDUCED MOTION SUPPORT
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================
+   HIGH CONTRAST MODE
+   ============================================ */
+
+@media (prefers-contrast: more) {
+  :root {
+    --primary: #4a2511;
+    --secondary: #9a7555;
+    --accent: #b81e35;
+    --neutral-dark: #000;
+  }
+  
+  .btn {
+    border: 2px solid currentColor;
+  }
+  
+  input,
+  textarea,
+  select {
+    border-width: 2px;
+  }
+}
+
+/* ============================================
+   DARK MODE SUPPORT
+   ============================================ */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --neutral-light: #1a1a1a;
+    --neutral-dark: #f0f0f0;
+  }
+  
+  body {
+    background-color: #0a0a0a;
+    color: var(--neutral-dark);
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="date"],
+  input[type="time"],
+  input[type="number"],
+  textarea,
+  select {
+    background-color: #1a1a1a;
+    color: var(--neutral-dark);
+    border-color: #333;
+  }
+  
+  .menu-item,
+  .reservation-form,
+  .contact-form {
+    background-color: #1a1a1a;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  .nav-link:hover {
+    color: var(--secondary);
+  }
+}
+
+/* ============================================
+   FOCUS VISIBLE FOR ACCESSIBILITY
+   ============================================ */
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* ============================================
+   SMALL SCREEN OPTIMIZATIONS
+   ============================================ */
+
+@media (max-width: 767px) {
+  .menu-section,
+  .about-section,
+  .location-section,
+  .reservations-section,
+  .contact-section {
+    padding: 2rem 0;
+  }
+  
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 2rem 0;
+  }
+  
+  .footer-content {
+    grid-template-columns: 1fr;
+  }
+  
+  .nav-container {
+    flex-wrap: wrap;
+  }
+  
+  .nav-brand {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  
+  .nav-menu {
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+    display: none;
+  }
+  
+  .nav-menu.active {
+    display: flex;
+  }
+  
+  /* Hamburger menu animation */
+  .menu-toggle.active {
+    color: var(--accent);
+  }
+}

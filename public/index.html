@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Terra Kitchen - Modern Indian Cuisine. Experience authentic Indian flavors with a contemporary twist. Reserve your table online.">
+  <meta name="theme-color" content="#8B4513">
+  <title>Terra Kitchen | Modern Indian Restaurant</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <!-- Razorpay Checkout -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <h1>Terra Kitchen</h1>
+        <p class="tagline">Modern Indian Cuisine</p>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="#menu" class="nav-link">Menu</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#reservations" class="nav-link">Reservations</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+      <button class="menu-toggle">☰</button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="hero-content">
+      <h2 class="hero-title">Experience Culinary Excellence</h2>
+      <p class="hero-subtitle">Authentic Indian flavors, modern presentation, unforgettable dining</p>
+      <div class="hero-buttons">
+        <a href="#menu" class="btn btn-primary">Explore Menu</a>
+        <a href="#reservations" class="btn btn-secondary">Book a Table</a>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="images/hero.jpg" alt="Terra Kitchen dining experience">
+    </div>
+  </header>
+
+  <!-- Menu Section -->
+  <section id="menu" class="menu-section">
+    <div class="container">
+      <h2 class="section-title">Our Menu</h2>
+      
+      <!-- Category Filter -->
+      <div class="menu-filters">
+        <button class="filter-btn active" data-category="all">All</button>
+        <button class="filter-btn" data-category="Appetizers">Appetizers</button>
+        <button class="filter-btn" data-category="Mains">Mains</button>
+        <button class="filter-btn" data-category="Desserts">Desserts</button>
+        <button class="filter-btn" data-category="Drinks">Drinks</button>
+      </div>
+
+      <!-- Menu Items Grid -->
+      <div class="menu-grid" id="menu-grid">
+        <!-- Items will be loaded dynamically via JavaScript -->
+        <div class="loading">Loading menu items...</div>
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state hidden" id="menu-empty">
+        <p>No menu items available at the moment. Please check back soon!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="about-section">
+    <div class="container">
+      <div class="about-content">
+        <div class="about-text">
+          <h2 class="section-title">About Terra Kitchen</h2>
+          <p>Founded in 2024, Terra Kitchen brings the authentic taste of India to your table with a modern twist. Our head chef, trained in traditional Indian cuisine, curates every dish to perfection.</p>
+          <p>We believe in using fresh, locally-sourced ingredients and cooking with passion. Each meal is a celebration of flavor, tradition, and innovation.</p>
+          <ul class="features-list">
+            <li>✓ Fresh, organic ingredients</li>
+            <li>✓ Certified Indian chef with 15+ years experience</li>
+            <li>✓ Vegetarian and vegan options</li>
+            <li>✓ Outdoor seating available</li>
+            <li>✓ Private dining available</li>
+            <li>✓ Catering services</li>
+          </ul>
+        </div>
+        <div class="about-image">
+          <img src="images/about.jpg" alt="Chef preparing authentic Indian cuisine">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Location Section -->
+  <section class="location-section">
+    <div class="container">
+      <h2 class="section-title">Visit Us</h2>
+      <div class="location-grid">
+        <div class="location-info">
+          <h3>Terra Kitchen</h3>
+          <p><strong>Address:</strong> 123 Spice Street, Mumbai, Maharashtra 400001</p>
+          <p><strong>Phone:</strong> +91 (22) 1234-5678</p>
+          <p><strong>Email:</strong> hello@terrrakitchen.com</p>
+          <p><strong>Hours:</strong></p>
+          <ul class="hours-list">
+            <li>Monday - Thursday: 11:00 AM - 11:00 PM</li>
+            <li>Friday - Saturday: 11:00 AM - 12:00 AM</li>
+            <li>Sunday: 12:00 PM - 11:00 PM</li>
+          </ul>
+        </div>
+        <div class="map-container">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3771.5662981614757!2d72.82782!3d19.07609!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c9c3b3b3b3b3%3A0x3b3b3b3b3b3b3b3b!2s123%20Spice%20Street!5e0!3m2!1sen!2sin!4v1234567890" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reservations Section -->
+  <section id="reservations" class="reservations-section">
+    <div class="container">
+      <h2 class="section-title">Book Your Table</h2>
+      <div class="reservation-container">
+        <form class="reservation-form" id="reservation-form">
+          <div class="form-group">
+            <label for="res-name">Name *</label>
+            <input type="text" id="res-name" name="name" required>
+            <span class="error-message"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="res-email">Email *</label>
+            <input type="email" id="res-email" name="email" required>
+            <span class="error-message"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="res-phone">Phone Number (10 digits) *</label>
+            <input type="tel" id="res-phone" name="phone" placeholder="9876543210" required>
+            <span class="error-message"></span>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="res-date">Date *</label>
+              <input type="date" id="res-date" name="date" required>
+              <span class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="res-time">Time *</label>
+              <input type="time" id="res-time" name="time" required>
+              <span class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="res-guests">Guests *</label>
+              <input type="number" id="res-guests" name="guests" min="1" max="20" required>
+              <span class="error-message"></span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="res-requests">Special Requests</label>
+            <textarea id="res-requests" name="specialRequests" rows="3" placeholder="Dietary restrictions, occasion, seating preference..."></textarea>
+            <span class="error-message"></span>
+          </div>
+
+          <div class="form-info">
+            <p><strong>Deposit Required:</strong> ₹500 or 10% of estimated bill (whichever is higher)</p>
+          </div>
+
+          <button type="submit" class="btn btn-primary" id="res-submit-btn">
+            <span>Book & Pay ₹500 Deposit</span>
+            <span class="spinner hidden"></span>
+          </button>
+        </form>
+
+        <!-- Reservation Success Message -->
+        <div class="reservation-success hidden" id="reservation-success">
+          <div class="success-message">
+            <h3>✓ Reservation Confirmed!</h3>
+            <p>Your table has been reserved and payment received.</p>
+            <p><strong>Reservation ID:</strong> <span id="res-id"></span></p>
+            <p>We look forward to seeing you!</p>
+            <button class="btn btn-secondary" onclick="location.reload()">Book Another Table</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="contact-section">
+    <div class="container">
+      <h2 class="section-title">Get In Touch</h2>
+      <div class="contact-container">
+        <form class="contact-form" id="contact-form">
+          <div class="form-group">
+            <label for="con-name">Name *</label>
+            <input type="text" id="con-name" name="name" required>
+            <span class="error-message"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="con-email">Email *</label>
+            <input type="email" id="con-email" name="email" required>
+            <span class="error-message"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="con-phone">Phone Number</label>
+            <input type="tel" id="con-phone" name="phone" placeholder="9876543210">
+            <span class="error-message"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="con-message">Message *</label>
+            <textarea id="con-message" name="message" rows="5" placeholder="Your message here..." required></textarea>
+            <span class="error-message"></span>
+          </div>
+
+          <button type="submit" class="btn btn-primary" id="con-submit-btn">
+            <span>Send Message</span>
+            <span class="spinner hidden"></span>
+          </button>
+        </form>
+
+        <!-- Contact Success Message -->
+        <div class="contact-success hidden" id="contact-success">
+          <div class="success-message">
+            <h3>✓ Message Sent!</h3>
+            <p>Thank you for contacting us. We will get back to you soon.</p>
+            <button class="btn btn-secondary" onclick="location.reload()">Send Another Message</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>Terra Kitchen</h3>
+          <p>Modern Indian Restaurant</p>
+          <p>Email: hello@terrrakitchen.com</p>
+          <p>Phone: +91 (22) 1234-5678</p>
+        </div>
+        <div class="footer-section">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#reservations">Reservations</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Hours</h3>
+          <p>Mon-Thu: 11 AM - 11 PM</p>
+          <p>Fri-Sat: 11 AM - 12 AM</p>
+          <p>Sun: 12 PM - 11 PM</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 Terra Kitchen. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript Files -->
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/menu.js"></script>
+  <script src="js/reservation.js"></script>
+  <script src="js/contact.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
