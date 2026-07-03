@@ -1,26 +1,45 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const connectDB = async () => {
-  try {
-    // Skip DB connection if no MongoDB URI is provided
-    if (!process.env.MONGODB_URI || process.env.MONGODB_URI.includes('your_mongodb_uri')) {
-      console.log('[DB] MongoDB URI not configured. Running in demo mode.');
-      return null;
+
+    const uri = process.env.MONGODB_URI;
+
+    // Demo Mode
+    if (!uri || uri.includes("your_mongodb_uri")) {
+
+        console.warn("====================================");
+        console.warn(" MongoDB URI not configured");
+        console.warn(" Running in DEMO MODE");
+        console.warn("====================================");
+
+        return null;
     }
 
-    const conn = await mongoose.connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    });
+    try {
 
-    console.log(`[DB] Connected to MongoDB: ${conn.connection.host}`);
-    return conn;
-  } catch (error) {
-    console.error('[DB] Connection error:', error.message);
-    console.log('[DB] Running in demo mode without database.');
-    // Don't exit - allow app to run in demo mode
-    return null;
-  }
+        const conn = await mongoose.connect(uri, {
+            serverSelectionTimeoutMS: 10000
+        });
+
+        console.log("====================================");
+        console.log(" MongoDB Connected");
+        console.log(` Host : ${conn.connection.host}`);
+        console.log(` Database : ${conn.connection.name}`);
+        console.log("====================================");
+
+        return conn;
+
+    } catch (err) {
+
+        console.error("====================================");
+        console.error(" MongoDB Connection Failed");
+        console.error(err.message);
+        console.error(" Starting in Demo Mode");
+        console.error("====================================");
+
+        return null;
+    }
+
 };
 
 module.exports = connectDB;

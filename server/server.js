@@ -1,45 +1,53 @@
-const dotenv = require('dotenv');
-const connectDB = require('./config/db');
-const app = require('./app');
-
-// Load environment variables
+const dotenv = require("dotenv");
 dotenv.config();
+
+const connectDB = require("./config/db");
+const app = require("./app");
 
 const PORT = process.env.PORT || 5000;
 
-// Connect to MongoDB and start server
-const startServer = async () => {
-  try {
-    // Connect to MongoDB (will gracefully handle connection failure)
-    await connectDB();
+async function startServer() {
 
-    // Start Express server
+    try {
+
+        await connectDB();
+
+        console.log("[DATABASE] MongoDB Connected");
+
+    } catch (err) {
+
+        console.warn("[DATABASE] MongoDB unavailable.");
+        console.warn(err.message);
+        console.warn("[SERVER] Starting in demo mode.");
+
+    }
+
     const server = app.listen(PORT, () => {
-      console.log(`[SERVER] Terra Kitchen API running on port ${PORT}`);
-      console.log(`[SERVER] Environment: ${process.env.NODE_ENV || 'development'}`);
-      console.log(`[SERVER] Frontend: http://localhost:${PORT}`);
+
+        console.log(`====================================`);
+        console.log(` Terra Kitchen Server Started`);
+        console.log(` Port : ${PORT}`);
+        console.log(` Mode : ${process.env.NODE_ENV || "development"}`);
+        console.log(`====================================`);
+
     });
 
-    // Graceful shutdown
-    process.on('SIGTERM', () => {
-      console.log('[SERVER] SIGTERM signal received: closing HTTP server');
-      server.close(() => {
-        console.log('[SERVER] HTTP server closed');
-        process.exit(0);
-      });
+    process.on("SIGTERM", () => {
+
+        console.log("Stopping Server...");
+
+        server.close(() => process.exit(0));
+
     });
 
-    process.on('SIGINT', () => {
-      console.log('[SERVER] SIGINT signal received: closing HTTP server');
-      server.close(() => {
-        console.log('[SERVER] HTTP server closed');
-        process.exit(0);
-      });
+    process.on("SIGINT", () => {
+
+        console.log("Stopping Server...");
+
+        server.close(() => process.exit(0));
+
     });
-  } catch (error) {
-    console.error('[SERVER] Failed to start:', error.message);
-    // Don't exit - let app run in demo mode
-  }
-};
+
+}
 
 startServer();
