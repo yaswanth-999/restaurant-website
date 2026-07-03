@@ -18,7 +18,7 @@ services:
       - key: RAZORPAY_KEY_SECRET
         sync: false
       - key: FRONTEND_URL
-        sync: false
+        value: https://restaurant-website-pvz6.onrender.com
       - key: PORT
         value: "5000"
     staticPublicPath: public
